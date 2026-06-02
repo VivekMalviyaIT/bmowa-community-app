@@ -31,7 +31,7 @@ function findValue(data: SheetRow[], keywords: string[]): string | null {
 export default async function SnapshotPage() {
   let sheetData: SheetRow[] = [];
   try {
-    sheetData = await fetchSheetData('Sheet1');
+    sheetData = (await fetchSheetData('Sheet1')) as Record<string, string>[];
   } catch (e) {
     console.error('Failed to fetch sheet data:', e);
   }

@@ -57,7 +57,7 @@ const FALLBACK_INITIATIVES: Initiative[] = [
 export default async function InitiativesPage() {
   let sheetData: Array<Record<string, string>> = [];
   try {
-    sheetData = await fetchSheetData('Sheet1');
+    sheetData = (await fetchSheetData('Sheet1')) as Record<string, string>[];
   } catch (e) {
     console.error('Failed to fetch initiatives data:', e);
   }

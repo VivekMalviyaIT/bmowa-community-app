@@ -79,7 +79,7 @@ const COMMUNITY_SERVICES: ServiceItem[] = [
 export default async function ServicesPage() {
   let sheetData: Array<Record<string, string>> = [];
   try {
-    sheetData = await fetchSheetData('Sheet1');
+    sheetData = (await fetchSheetData('Sheet1')) as Record<string, string>[];
   } catch (e) {
     console.error('Failed to fetch services data:', e);
   }

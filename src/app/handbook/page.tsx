@@ -82,7 +82,7 @@ const HANDBOOK_SECTIONS: HandbookSection[] = [
       'Party Hall: Available weekends, deposit required',
       'Gym: Open 5:30 AM - 9:30 PM daily',
       'Swimming Pool: Seasonal (Apr-Sep)',
-      'Children\'s Play Area: Open access, 7 AM - 8 PM',
+      "Children's Play Area: Open access, 7 AM - 8 PM",
     ],
   },
 ];
@@ -90,7 +90,7 @@ const HANDBOOK_SECTIONS: HandbookSection[] = [
 export default async function HandbookPage() {
   let sheetData: Array<Record<string, string>> = [];
   try {
-    sheetData = await fetchSheetData('Sheet1');
+    sheetData = (await fetchSheetData('Sheet1')) as Record<string, string>[];
   } catch (e) {
     console.error('Failed to fetch handbook data:', e);
   }
