@@ -2,133 +2,85 @@ import GlassCard from '@/components/GlassCard';
 import PageHeader from '@/components/PageHeader';
 import { fetchSheetData } from '@/lib/googleSheets';
 
-interface HandbookSection {
-  title: string;
-  icon: string;
-  description: string;
-  details?: string[];
-  highlight?: boolean;
-}
-
-const HANDBOOK_SECTIONS: HandbookSection[] = [
-  {
-    title: 'Parking Rules — Odd-Even System',
-    icon: '🅿️',
-    description: 'Stilt parking follows odd-even allocation based on flat numbers.',
+const sections = [
+  { 
+    title: 'Odd-Even Parking Rule', 
+    icon: '🅿️', 
+    desc: 'Ensuring smooth lane transit flow.',
     details: [
-      'Odd-numbered flats: Left-side parking slots',
-      'Even-numbered flats: Right-side parking slots',
-      'Visitor parking: Designated slots near gate only',
-      'No double parking — violators will be penalized',
-      'Two-wheeler zone: Separate covered area near Block B',
-    ],
-    highlight: true,
+      'Schedule: One row parks on Even days, opposite row on Odd days.',
+      'Opposite houses cannot park on the same day.',
+      'Violations are logged and penalized via MyGate.'
+    ]
+  }, 
+  { 
+    title: '6-Step Water Process', 
+    icon: '💧', 
+    desc: 'How your water is treated and softened.',
+    details: [
+      '1. V-Pipe Primary Filtration (sediment removal)',
+      '2. Settlement in External White Sintex Tanks',
+      '3. Softening Phase 1 (Electrolysis Anode/Cathode)',
+      '4. 100kL Main Sump Collection',
+      '5. Softening Phase 2 (Big Tube Softeners)',
+      '6. Final Cleansing (Wall-mounted tubes)'
+    ]
   },
-  {
-    title: '6-Step Water Purification Process',
-    icon: '💧',
-    description: 'BMOWA follows a comprehensive 6-step water treatment process.',
+  { 
+    title: 'Resident Onboarding', 
+    icon: '📦', 
+    desc: 'Welcome to BlueJay Malgudi.',
     details: [
-      'Step 1: Primary Filtration — Raw water intake screening',
-      'Step 2: External Treatment — Chemical dosing & settling',
-      'Step 3: Softening Stage 1 — Ion exchange softening',
-      'Step 4: Main Sump Collection — Treated water storage',
-      'Step 5: Softening Stage 2 — Secondary polishing',
-      'Step 6: Final Cleansing — UV/chlorination before distribution',
-    ],
+      'Report builder handover to Association office.',
+      'Submit ownership/rental docs for MyGate activation.',
+      'Orientation on waste segregation & parking rules.'
+    ]
   },
-  {
-    title: 'CCTV & Security',
-    icon: '📹',
-    description: 'Security camera coverage and monitoring details.',
+  { 
+    title: 'Facility Guidelines', 
+    icon: '🏊', 
+    desc: 'Gym, Pool, and Clubhouse rules.',
     details: [
-      'Total cameras installed: 16',
-      '⚠️ Currently non-functional: 5 cameras',
-      '⚠️ Storage capacity: 5 days (recommended: 30 days)',
-      'Monitoring: 24/7 at security cabin',
-      'NVR upgrade pending committee approval',
-    ],
-  },
-  {
-    title: 'Legal & Registration Status',
-    icon: '⚖️',
-    description: 'Society registration and compliance information.',
-    details: [
-      '⚠️ Registration Status: EXPIRED (FY 2019-20)',
-      'Registered under: Karnataka Societies Registration Act',
-      'Action needed: Re-registration with updated bylaws',
-      'Impact: Cannot open new bank accounts or file legal cases',
-      'Committee is engaging legal counsel for resolution',
-    ],
-  },
-  {
-    title: 'Emergency Contacts',
-    icon: '🚨',
-    description: 'Key contacts for emergencies within the community.',
-    details: [
-      'Security Cabin: Available 24/7 at main gate',
-      'Plumbing Emergency: Contact facility manager',
-      'Electrical Issues: Maintenance team on-call',
-      'Fire: Call 101, then inform security',
-      'Medical: Call 108 (Ambulance)',
-    ],
-  },
-  {
-    title: 'Amenity Booking',
-    icon: '🏊',
-    description: 'Community amenities and booking procedures.',
-    details: [
-      'Clubhouse: Book 3 days in advance',
-      'Party Hall: Available weekends, deposit required',
-      'Gym: Open 5:30 AM - 9:30 PM daily',
-      'Swimming Pool: Seasonal (Apr-Sep)',
-      "Children's Play Area: Open access, 7 AM - 8 PM",
-    ],
+      'Pool: Maintained at 31-32°C. Mandatory shower.',
+      'Gym: No footwear. Wipe equipment after use.',
+      'Clubhouse: Residents only. Book 7 days in advance.'
+    ]
   },
 ];
 
 export default async function HandbookPage() {
-  let sheetData: Array<Record<string, string>> = [];
+  let sheetData: Record<string, string>[] = [];
   try {
     sheetData = (await fetchSheetData('Sheet1')) as Record<string, string>[];
   } catch (e) {
     console.error('Failed to fetch handbook data:', e);
   }
 
-  // If sheet has parking rules data, we could merge it here
-  // For now, using Master Document v5 content as the authoritative source
-  const sections = HANDBOOK_SECTIONS;
-
   return (
     <div>
-      <PageHeader title="Handbook" subtitle="Community guidelines, rules & processes" />
-      <div className="space-y-4">
+      <PageHeader title="Handbook" subtitle="Community Guidelines & How-To's" />
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {sections.map((section, idx) => (
-          <GlassCard key={section.title} delay={idx * 0.08}>
-            <div className={`p-5 ${section.highlight ? 'border-l-2 border-blue-400/50' : ''}`}>
-              <div className="flex items-start gap-4">
-                <span className="text-2xl flex-shrink-0">{section.icon}</span>
-                <div className="flex-1">
-                  <h3 className="text-sm font-semibold text-white/90">{section.title}</h3>
-                  <p className="text-xs text-white/50 mt-1">{section.description}</p>
-                  {section.details && (
-                    <ul className="mt-3 space-y-1.5">
-                      {section.details.map((detail, dIdx) => (
-                        <li key={dIdx} className="text-[11px] text-white/40 flex items-start gap-2">
-                          <span className="text-white/20 mt-0.5">•</span>
-                          <span>{detail}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </div>
+          <GlassCard key={section.title} delay={idx * 0.1}>
+            <div className="p-5">
+              <div className="flex items-center gap-3 mb-3">
+                <span className="text-2xl">{section.icon}</span>
+                <h3 className="text-sm font-semibold text-white/90">{section.title}</h3>
               </div>
+              <p className="text-[11px] text-white/40 mb-3">{section.desc}</p>
+              <ul className="space-y-1.5">
+                {section.details.map((d, i) => (
+                  <li key={i} className="text-[10px] text-white/60 flex gap-2">
+                    <span className="text-blue-400">•</span> {d}
+                  </li>
+                ))}
+              </ul>
             </div>
           </GlassCard>
         ))}
       </div>
       <p className="text-[10px] text-white/20 mt-4 text-center">
-        Last updated from BMOWA Master Document v5 • Odd-Even parking effective immediately
+        Last updated from BMOWA Master Document • Odd-Even parking effective immediately
       </p>
     </div>
   );
