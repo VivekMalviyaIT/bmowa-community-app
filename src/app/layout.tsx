@@ -3,8 +3,8 @@ import './globals.css';
 import Sidebar from '@/components/Sidebar';
 
 export const metadata: Metadata = {
-  title: 'BMOWA Community Hub',
-  description: 'Modern Glass community management app for BMOWA residents',
+  title: 'BMOWA Community Journal',
+  description: 'The editorial community hub for BlueJay Malgudi residents',
 };
 
 export default function RootLayout({
@@ -15,15 +15,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased min-h-screen">
-        {/* Ambient background glow */}
-        <div className="ambient-glow" />
+        {/* Atmospheric background blooms */}
+        <div className="atmospheric-blooms" />
 
         {/* Sidebar */}
         <Sidebar />
 
         {/* Main Content */}
-        <main className="relative z-10 lg:ml-64 min-h-screen pb-24 lg:pb-8">
-          <div className="p-4 lg:p-8 max-w-6xl mx-auto">
+        <main className="relative z-10 lg:ml-60 min-h-screen pb-28 lg:pb-12">
+          <div className="px-6 py-12 lg:px-16 lg:py-16 max-w-5xl mx-auto">
             {children}
           </div>
         </main>
