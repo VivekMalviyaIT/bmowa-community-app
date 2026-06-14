@@ -1,4 +1,4 @@
-import GlassCard from '@/components/GlassCard';
+import EditorialCard from '@/components/EditorialCard';
 import PageHeader from '@/components/PageHeader';
 import { fetchSheetData } from '@/lib/googleSheets';
 
@@ -84,24 +84,14 @@ export default async function ServicesPage() {
     console.error('Failed to fetch services data:', e);
   }
 
-  // Group services by category
   const categories = [...new Set(COMMUNITY_SERVICES.map(s => s.category))];
 
-  const getStatusColor = (status: string) => {
+  const getStatusStyle = (status: string) => {
     switch (status) {
-      case 'operational': return 'bg-emerald-400';
-      case 'degraded': return 'bg-amber-400';
-      case 'down': return 'bg-red-400';
-      default: return 'bg-white/40';
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'operational': return 'Operational';
-      case 'degraded': return 'Needs Attention';
-      case 'down': return 'Non-Functional';
-      default: return 'Unknown';
+      case 'operational': return { dot: 'bg-accent-emerald', text: 'text-accent-emerald', label: 'Operational' };
+      case 'degraded': return { dot: 'bg-accent-amber', text: 'text-accent-amber', label: 'Needs Attention' };
+      case 'down': return { dot: 'bg-accent-red', text: 'text-accent-red', label: 'Non-Functional' };
+      default: return { dot: 'bg-text-subtle', text: 'text-text-subtle', label: 'Unknown' };
     }
   };
 
@@ -109,67 +99,63 @@ export default async function ServicesPage() {
     <div>
       <PageHeader title="Services" subtitle="Community services & infrastructure status" />
 
-      {/* Status Summary */}
-      <GlassCard delay={0.05}>
-        <div className="p-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full bg-emerald-400" />
-              <span className="text-[10px] text-white/50">
-                {COMMUNITY_SERVICES.filter(s => s.status === 'operational').length} Operational
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full bg-amber-400" />
-              <span className="text-[10px] text-white/50">
-                {COMMUNITY_SERVICES.filter(s => s.status === 'degraded').length} Degraded
-              </span>
-            </div>
-            <div className="flex items-center gap-1.5">
-              <div className="w-2 h-2 rounded-full bg-red-400" />
-              <span className="text-[10px] text-white/50">
-                {COMMUNITY_SERVICES.filter(s => s.status === 'down').length} Down
-              </span>
-            </div>
+      {/* Status Summary Bar */}
+      <EditorialCard delay={0.05} hover={false}>
+        <div className="p-5 flex items-center gap-6">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-accent-emerald" />
+            <span className="text-xs text-text-muted">
+              {COMMUNITY_SERVICES.filter(s => s.status === 'operational').length} Operational
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-accent-amber" />
+            <span className="text-xs text-text-muted">
+              {COMMUNITY_SERVICES.filter(s => s.status === 'degraded').length} Degraded
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-accent-red" />
+            <span className="text-xs text-text-muted">
+              {COMMUNITY_SERVICES.filter(s => s.status === 'down').length} Down
+            </span>
           </div>
         </div>
-      </GlassCard>
+      </EditorialCard>
 
       {/* Services by Category */}
       {categories.map((category) => (
-        <div key={category} className="mt-6">
-          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-3 px-1">
+        <div key={category} className="mt-10">
+          <h3 className="text-xs font-semibold text-text-subtle uppercase tracking-widest mb-4 px-1">
             {category}
           </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-            {COMMUNITY_SERVICES.filter(s => s.category === category).map((service, idx) => (
-              <GlassCard key={service.title} delay={idx * 0.08}>
-                <div className="p-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-xl">{service.icon}</span>
-                    <div className="flex-1 min-w-0">
-                      <h4 className="text-xs font-semibold text-white/90 truncate">{service.title}</h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {COMMUNITY_SERVICES.filter(s => s.category === category).map((service, idx) => {
+              const statusInfo = getStatusStyle(service.status);
+              return (
+                <EditorialCard key={service.title} delay={idx * 0.06} hover={false}>
+                  <div className="p-5">
+                    <div className="flex items-center gap-3 mb-3">
+                      <span className="text-xl">{service.icon}</span>
+                      <h4 className="text-xs font-semibold text-foreground leading-tight">{service.title}</h4>
+                    </div>
+                    <p className="text-[11px] text-text-muted mb-3 leading-relaxed">{service.details}</p>
+                    <div className="flex items-center gap-2">
+                      <div className={`w-1.5 h-1.5 rounded-full ${statusInfo.dot}`} />
+                      <span className={`text-[11px] font-medium ${statusInfo.text}`}>
+                        {statusInfo.label}
+                      </span>
                     </div>
                   </div>
-                  <p className="text-[10px] text-white/40 mb-2">{service.details}</p>
-                  <div className="flex items-center gap-1.5">
-                    <div className={`w-1.5 h-1.5 rounded-full ${getStatusColor(service.status)}`} />
-                    <span className={`text-[10px] ${
-                      service.status === 'operational' ? 'text-emerald-400/70' :
-                      service.status === 'degraded' ? 'text-amber-400/70' : 'text-red-400/70'
-                    }`}>
-                      {getStatusText(service.status)}
-                    </span>
-                  </div>
-                </div>
-              </GlassCard>
-            ))}
+                </EditorialCard>
+              );
+            })}
           </div>
         </div>
       ))}
 
-      <p className="text-[10px] text-white/20 mt-6 text-center">
-        Service status synced from BMOWA Google Sheets • Last refresh: auto every 5 mins
+      <p className="text-[11px] text-text-subtle mt-10 text-center">
+        Service status synced from BMOWA Google Sheets • Auto-refreshes every 5 minutes
       </p>
     </div>
   );

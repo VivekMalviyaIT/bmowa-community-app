@@ -1,4 +1,4 @@
-import GlassCard from '@/components/GlassCard';
+import EditorialCard from '@/components/EditorialCard';
 import PageHeader from '@/components/PageHeader';
 import { fetchSheetData } from '@/lib/googleSheets';
 
@@ -58,28 +58,33 @@ export default async function HandbookPage() {
 
   return (
     <div>
-      <PageHeader title="Handbook" subtitle="Community Guidelines & How-To's" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <PageHeader title="Handbook" subtitle="Community Guidelines & Standard Operating Procedures" />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
         {sections.map((section, idx) => (
-          <GlassCard key={section.title} delay={idx * 0.1}>
-            <div className="p-5">
-              <div className="flex items-center gap-3 mb-3">
+          <EditorialCard key={section.title} delay={idx * 0.08} hover={false}>
+            <div className="p-7">
+              <div className="flex items-center gap-3 mb-4">
                 <span className="text-2xl">{section.icon}</span>
-                <h3 className="text-sm font-semibold text-white/90">{section.title}</h3>
+                <div>
+                  <h3 className="font-serif text-base text-foreground">{section.title}</h3>
+                  <p className="text-xs text-text-subtle mt-0.5">{section.desc}</p>
+                </div>
               </div>
-              <p className="text-[11px] text-white/40 mb-3">{section.desc}</p>
-              <ul className="space-y-1.5">
+              <ul className="space-y-2.5 mt-4">
                 {section.details.map((d, i) => (
-                  <li key={i} className="text-[10px] text-white/60 flex gap-2">
-                    <span className="text-blue-400">•</span> {d}
+                  <li key={i} className="text-xs text-text-muted flex gap-2.5 leading-relaxed">
+                    <span className="text-accent-sage mt-0.5">•</span>
+                    <span>{d}</span>
                   </li>
                 ))}
               </ul>
             </div>
-          </GlassCard>
+          </EditorialCard>
         ))}
       </div>
-      <p className="text-[10px] text-white/20 mt-4 text-center">
+
+      <p className="text-[11px] text-text-subtle mt-10 text-center">
         Last updated from BMOWA Master Document • Odd-Even parking effective immediately
       </p>
     </div>

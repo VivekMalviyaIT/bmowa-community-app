@@ -1,4 +1,4 @@
-import GlassCard from '@/components/GlassCard';
+import EditorialCard from '@/components/EditorialCard';
 import PageHeader from '@/components/PageHeader';
 import { fetchSheetData } from '@/lib/googleSheets';
 
@@ -25,7 +25,7 @@ const FALLBACK_INITIATIVES: Initiative[] = [
     status: 'Recommended',
     description: 'Current STP is outdated. ECO STP recommended for better efficiency, lower maintenance, and compliance with KSPCB norms.',
     progress: 10,
-    color: 'blue',
+    color: 'slate',
     recommendation: 'ECO STP recommended — vendor evaluation in progress',
   },
   {
@@ -49,7 +49,7 @@ const FALLBACK_INITIATIVES: Initiative[] = [
     status: 'Active',
     description: '6-step water purification process in place: Primary → External → Softening → Main Sump → Softening 2 → Final Cleansing.',
     progress: 80,
-    color: 'emerald',
+    color: 'sage',
     recommendation: 'Quarterly testing schedule established',
   },
 ];
@@ -62,7 +62,6 @@ export default async function InitiativesPage() {
     console.error('Failed to fetch initiatives data:', e);
   }
 
-  // Try to extract initiatives from sheet data, fall back to hardcoded
   let initiatives: Initiative[] = FALLBACK_INITIATIVES;
 
   if (sheetData.length > 0) {
@@ -80,7 +79,7 @@ export default async function InitiativesPage() {
           status: vals[2] || vals[1] || 'Pending',
           description: vals[3] || vals[2] || '',
           progress: parseInt(vals[4] || '0') || 0,
-          color: 'blue',
+          color: 'slate',
         };
       });
 
@@ -89,57 +88,59 @@ export default async function InitiativesPage() {
     }
   }
 
-  const getColorClasses = (color: string) => {
+  const getBarColor = (color: string) => {
     switch (color) {
-      case 'blue': return 'from-blue-400 to-blue-500';
-      case 'amber': return 'from-amber-400 to-amber-500';
-      case 'emerald': return 'from-emerald-400 to-emerald-500';
-      case 'red': return 'from-red-400 to-red-500';
-      case 'purple': return 'from-purple-400 to-purple-500';
-      default: return 'from-blue-400 to-blue-500';
+      case 'slate': return 'bg-accent-slate';
+      case 'amber': return 'bg-accent-amber';
+      case 'sage': return 'bg-accent-sage';
+      case 'red': return 'bg-accent-red';
+      case 'rose': return 'bg-accent-rose';
+      default: return 'bg-accent-slate';
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusStyle = (status: string) => {
     const s = status.toLowerCase();
-    if (s.includes('active') || s.includes('complete')) return 'bg-emerald-400/10 text-emerald-400 ring-emerald-400/20';
-    if (s.includes('urgent') || s.includes('expired')) return 'bg-red-400/10 text-red-400 ring-red-400/20';
-    if (s.includes('hold') || s.includes('pending')) return 'bg-amber-400/10 text-amber-400 ring-amber-400/20';
-    return 'bg-blue-400/10 text-blue-400 ring-blue-400/20';
+    if (s.includes('active') || s.includes('complete')) return 'bg-accent-emerald/8 text-accent-emerald border-accent-emerald/20';
+    if (s.includes('urgent') || s.includes('expired')) return 'bg-accent-red/8 text-accent-red border-accent-red/20';
+    if (s.includes('hold') || s.includes('pending')) return 'bg-accent-amber/8 text-accent-amber border-accent-amber/20';
+    return 'bg-accent-slate/8 text-accent-slate border-accent-slate/20';
   };
 
   return (
     <div>
-      <PageHeader title="Initiatives" subtitle="Community improvement projects — Data from Master Document v5" />
-      <div className="space-y-4">
+      <PageHeader title="Initiatives" subtitle="Community improvement projects — from the BMOWA Master Document" />
+
+      <div className="space-y-5">
         {initiatives.map((init, idx) => (
-          <GlassCard key={init.title} delay={idx * 0.1}>
-            <div className="p-5">
-              <div className="flex items-center justify-between mb-2">
-                <h3 className="text-sm font-semibold text-white/90">{init.title}</h3>
-                <span className={`text-[10px] font-medium px-2 py-0.5 rounded-full ring-1 ${getStatusColor(init.status)}`}>
+          <EditorialCard key={init.title} delay={idx * 0.08} hover={false}>
+            <div className="p-7">
+              <div className="flex items-center justify-between mb-3">
+                <h3 className="font-serif text-lg text-foreground">{init.title}</h3>
+                <span className={`text-[10px] font-medium px-3 py-1 rounded-full border ${getStatusStyle(init.status)}`}>
                   {init.status}
                 </span>
               </div>
-              <p className="text-xs text-white/50 mb-3">{init.description}</p>
+              <p className="text-sm text-text-muted leading-relaxed mb-4">{init.description}</p>
               {init.recommendation && (
-                <p className="text-[10px] text-blue-300/70 mb-3 flex items-center gap-1">
+                <p className="text-xs text-accent-slate mb-4 flex items-center gap-1.5 italic">
                   <span>💡</span> {init.recommendation}
                 </p>
               )}
-              <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+              <div className="progress-bar-track">
                 <div
-                  className={`h-full rounded-full bg-gradient-to-r ${getColorClasses(init.color)}`}
+                  className={`progress-bar-fill ${getBarColor(init.color)}`}
                   style={{ width: `${init.progress}%` }}
                 />
               </div>
-              <p className="text-[10px] text-white/30 mt-1.5">{init.progress}% progress</p>
+              <p className="text-[11px] text-text-subtle mt-2">{init.progress}% progress</p>
             </div>
-          </GlassCard>
+          </EditorialCard>
         ))}
       </div>
-      <p className="text-[10px] text-white/20 mt-4 text-center">
-        Source: BMOWA Master Document v5 • Sheet ID: 1wAHIS0PY6atezES7bCCnKTVXksOgU4Q4jJc110Zrdjw
+
+      <p className="text-[11px] text-text-subtle mt-10 text-center">
+        Source: BMOWA Master Document v5 • Synced from Google Sheets
       </p>
     </div>
   );
