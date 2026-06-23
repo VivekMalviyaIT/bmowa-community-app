@@ -1,6 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
+/* ============================================================
+   THEME · "Editorial" (default — the existing shipped design)
+   These values are unchanged from the original design. The two
+   additional themes (Cream / Aubergine) override the same
+   variable names below via [data-theme], so components recolor
+   automatically without any markup changes.
+   ============================================================ */
 :root {
   --background: #F7F7F7;
   --foreground: #1A1A1A;
@@ -17,6 +24,28 @@
   --accent-red: #B45454;
   --accent-amber: #B8860B;
   --accent-emerald: #3D7A5A;
+
+  /* Surfaces that were previously hardcoded — defaults preserve Editorial */
+  --sidebar-bg: #FAFAFA;
+  --sidebar-border: #EBEBEB;
+  --sidebar-glow: none;
+  --mobile-nav-bg: rgba(255, 255, 255, 0.95);
+  --progress-track: #F0F0F0;
+  --scrollbar-thumb: #D4D4D4;
+  --scrollbar-thumb-hover: #BABABA;
+
+  /* Navigation active/hover — neutral in Editorial */
+  --nav-active-bg: rgba(26, 26, 26, 0.04);
+  --nav-hover-bg: rgba(26, 26, 26, 0.02);
+  --nav-active-indicator: #1A1A1A;
+  --nav-active-icon: #1A1A1A;
+
+  /* Atmospheric blooms (editorial defaults) */
+  --bloom-1: rgba(196, 168, 130, 0.08);
+  --bloom-2: rgba(123, 158, 135, 0.06);
+
+  /* Illume hero backlight — unused in Editorial (hero glow hidden) */
+  --gradient-illume: none;
 }
 
 @theme inline {
@@ -37,11 +66,104 @@
   --font-serif: 'Instrument Serif', Georgia, 'Times New Roman', serif;
 }
 
+/* ============================================================
+   THEME · "Cream"  (Design System — Light)
+   Claude-inspired cream canvas, Malgudi-maroon brand, garden
+   green + sand support.
+   ============================================================ */
+:root[data-theme="cream"] {
+  --background: #F7F4EC;
+  --foreground: #2A2622;
+  --card-bg: #FFFFFF;
+  --card-border: #E3DCCB;
+  --card-shadow: 0 1px 3px rgba(42, 38, 34, 0.05), 0 4px 12px rgba(42, 38, 34, 0.03);
+  --card-shadow-hover: 0 2px 8px rgba(42, 38, 34, 0.06), 0 12px 28px rgba(42, 38, 34, 0.06);
+  --text-muted: #756E64;
+  --text-subtle: #9B9488;
+  --accent-warm: #B08E5E;
+  --accent-sage: #3C6B4E;
+  --accent-slate: #51687E;
+  --accent-rose: #C5615E;
+  --accent-red: #B0322E;
+  --accent-amber: #B8860B;
+  --accent-emerald: #3C6B4E;
+
+  /* Sidebar — raised, faintly backlit (illuminated nav) */
+  --sidebar-bg: linear-gradient(180deg, #FFFFFF 0%, #FCFBF7 55%, #F7F4EC 100%);
+  --sidebar-border: #E7DFCF;
+  --sidebar-glow: radial-gradient(130% 75% at 0% 0%, rgba(196, 168, 130, 0.20) 0%, transparent 58%);
+  --mobile-nav-bg: rgba(252, 251, 247, 0.95);
+  --progress-track: #EFEADD;
+  --scrollbar-thumb: #CFC6B2;
+  --scrollbar-thumb-hover: #B8AE98;
+
+  /* Navigation active/hover — subtle maroon (ties to the crest) */
+  --nav-active-bg: color-mix(in srgb, #8C2D33 9%, transparent);
+  --nav-hover-bg: color-mix(in srgb, #2A2622 4%, transparent);
+  --nav-active-indicator: #8C2D33;
+  --nav-active-icon: #8C2D33;
+
+  /* Warm sand top-right, maroon bottom-left */
+  --bloom-1: rgba(196, 168, 130, 0.24);
+  --bloom-2: rgba(168, 48, 47, 0.13);
+
+  --gradient-illume: radial-gradient(60% 60% at 50% 0%, color-mix(in srgb, #D8BC8C 55%, transparent) 0%, transparent 70%);
+
+  color-scheme: light;
+}
+
+/* ============================================================
+   THEME · "Aubergine"  (Design System — Dark)
+   Deep maroon / aubergine canvas with illuminated surfaces and
+   rose-tinted text.
+   ============================================================ */
+:root[data-theme="aubergine"] {
+  --background: #2A0F13;
+  --foreground: #F7ECE9;
+  --card-bg: #2F151A;
+  --card-border: rgba(233, 201, 201, 0.14);
+  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.40), 0 4px 12px rgba(0, 0, 0, 0.28);
+  --card-shadow-hover: 0 2px 10px rgba(0, 0, 0, 0.50), 0 14px 32px rgba(0, 0, 0, 0.40);
+  --text-muted: #C2A6A8;
+  --text-subtle: #9C8084;
+  --accent-warm: #D8BC8C;
+  --accent-sage: #93B49B;
+  --accent-slate: #9DB0C4;
+  --accent-rose: #DB908C;
+  --accent-red: #DB908C;
+  --accent-amber: #D8BC8C;
+  --accent-emerald: #93B49B;
+
+  /* Sidebar — raised (lighter than canvas) + warm backlight = illuminated nav */
+  --sidebar-bg: linear-gradient(180deg, #3E1D24 0%, #341820 55%, #2A1318 100%);
+  --sidebar-border: rgba(233, 201, 201, 0.16);
+  --sidebar-glow: radial-gradient(135% 70% at 12% 0%, rgba(216, 188, 140, 0.16) 0%, rgba(168, 48, 47, 0.12) 38%, transparent 66%);
+  --mobile-nav-bg: rgba(47, 21, 26, 0.92);
+  --progress-track: rgba(233, 201, 201, 0.12);
+  --scrollbar-thumb: rgba(233, 201, 201, 0.22);
+  --scrollbar-thumb-hover: rgba(233, 201, 201, 0.34);
+
+  /* Navigation active/hover — subtle maroon glow (rose-maroon on dark) */
+  --nav-active-bg: color-mix(in srgb, #DB908C 15%, transparent);
+  --nav-hover-bg: color-mix(in srgb, #F7ECE9 5%, transparent);
+  --nav-active-indicator: #DB908C;
+  --nav-active-icon: #DB908C;
+
+  /* Strong warm sand top-right, deep maroon bottom-left */
+  --bloom-1: rgba(196, 168, 130, 0.42);
+  --bloom-2: rgba(168, 48, 47, 0.30);
+
+  --gradient-illume: radial-gradient(70% 62% at 50% 0%, color-mix(in srgb, #D8BC8C 46%, transparent) 0%, transparent 72%);
+
+  color-scheme: dark;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
   min-height: 100vh;
+  transition: background 0.4s ease, color 0.4s ease;
 }
 
 /* Atmospheric gradient orbs — soft pastel blooms */
@@ -60,7 +182,7 @@ body {
   right: -10%;
   width: 60%;
   height: 60%;
-  background: radial-gradient(ellipse at center, rgba(196, 168, 130, 0.08) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, var(--bloom-1) 0%, transparent 70%);
   border-radius: 50%;
 }
 
@@ -71,7 +193,7 @@ body {
   left: -10%;
   width: 50%;
   height: 50%;
-  background: radial-gradient(ellipse at center, rgba(123, 158, 135, 0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse at center, var(--bloom-2) 0%, transparent 70%);
   border-radius: 50%;
 }
 
@@ -80,17 +202,60 @@ body {
   background: var(--card-bg);
   border: 1px solid var(--card-border);
   box-shadow: var(--card-shadow);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  transition: box-shadow 0.3s ease, transform 0.3s ease, background 0.4s ease, border-color 0.4s ease;
 }
 
 .editorial-card:hover {
   box-shadow: var(--card-shadow-hover);
 }
 
+/* Hero illume backlight — only shown in the Design System themes */
+.hero-glow {
+  display: none;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.hero-glow::before {
+  content: '';
+  position: absolute;
+  top: -45%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 130%;
+  height: 150%;
+  background: var(--gradient-illume);
+}
+
+:root[data-theme="cream"] .hero-glow,
+:root[data-theme="aubergine"] .hero-glow {
+  display: block;
+}
+
 /* Sidebar editorial style */
 .sidebar-editorial {
-  background: #FAFAFA;
-  border-right: 1px solid #EBEBEB;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  position: relative;
+  overflow: hidden;
+  transition: background 0.4s ease, border-color 0.4s ease;
+}
+
+/* Soft "backlit" illumination at the top of the nav (Cream / Aubergine) */
+.sidebar-editorial::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: var(--sidebar-glow);
+  z-index: 0;
+}
+
+/* Mobile bottom nav surface */
+.mobile-nav-surface {
+  background: var(--mobile-nav-bg);
 }
 
 /* Form inputs editorial style */
@@ -109,17 +274,17 @@ input, select, textarea {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #D4D4D4;
+  background: var(--scrollbar-thumb);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #BABABA;
+  background: var(--scrollbar-thumb-hover);
 }
 
 /* Progress bar base */
 .progress-bar-track {
-  background: #F0F0F0;
+  background: var(--progress-track);
   border-radius: 999px;
   overflow: hidden;
   height: 4px;

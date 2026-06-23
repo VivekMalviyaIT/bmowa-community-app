@@ -21,9 +21,10 @@ export default function SpotlightPage() {
         className="mb-16"
       >
         <div className="editorial-card rounded-3xl p-8 relative overflow-hidden">
+          <div className="hero-glow" />
           <div className="relative z-10">
-            <p className="text-text-subtle text-xs uppercase tracking-widest">Good morning,</p>
-            <h2 className="font-serif text-2xl lg:text-3xl text-foreground mt-2">Welcome to BMOWA Community</h2>
+            <p className="text-text-subtle text-xs uppercase tracking-widest">Welcome home</p>
+            <h2 className="font-serif text-2xl lg:text-3xl text-foreground mt-2">Welcome to BlueJay Malgudi</h2>
             <p className="text-text-muted text-sm mt-3 font-light">Everything is running smoothly today ✓</p>
           </div>
         </div>
