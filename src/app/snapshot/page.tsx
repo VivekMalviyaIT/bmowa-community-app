@@ -3,36 +3,38 @@
 import EditorialCard from '@/components/EditorialCard';
 import PageHeader from '@/components/PageHeader';
 import { useEffect, useState } from 'react';
-import { fetchSheetData } from '@/lib/googleSheets';
+import { fetchTab, type SheetRow } from '@/lib/sheetClient';
+import { TABS } from '@/config/sheetConfig';
 
-interface SheetRow {
-  [key: string]: string;
-}
+const FALLBACK_STATS = [
+  { label: 'Water Sump', value: '80,000L', detail: 'of 100kL Capacity', icon: '💧', accent: 'text-accent-slate' },
+  { label: 'CCTV Cameras', value: '27 – 45', detail: 'HiKVision Stack', icon: '📹', accent: 'text-accent-warm' },
+  { label: 'Security Staff', value: '12 Guards', detail: '24/7 Day & Night shifts', icon: '🛡️', accent: 'text-accent-sage' },
+  { label: 'Lift Availability', value: '99.95%', detail: 'May Maintenance Report', icon: '🛗', accent: 'text-accent-rose' },
+];
 
 export default function SnapshotPage() {
   const [data, setData] = useState<SheetRow[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function loadData() {
-      try {
-        const result = (await fetchSheetData('Sheet1')) as SheetRow[];
-        setData(result);
-      } catch (e) {
-        console.error('Failed to fetch snapshot data:', e);
-      } finally {
-        setLoading(false);
-      }
-    }
-    loadData();
+    fetchTab(TABS.snapshot)
+      .then(setData)
+      .finally(() => setLoading(false));
   }, []);
 
-  const stats = [
-    { label: 'Water Sump', value: '80,000L', detail: 'of 100kL Capacity', icon: '💧', accent: 'text-accent-slate' },
-    { label: 'CCTV Cameras', value: '27 – 45', detail: 'HiKVision Stack', icon: '📹', accent: 'text-accent-warm' },
-    { label: 'Security Staff', value: '12 Guards', detail: '24/7 Day & Night shifts', icon: '🛡️', accent: 'text-accent-sage' },
-    { label: 'Lift Availability', value: '99.95%', detail: 'May Maintenance Report', icon: '🛗', accent: 'text-accent-rose' },
-  ];
+  // Live rows (columns: label, value, detail, icon, accent) override the
+  // fallback once the sheet is populated.
+  const liveStats = data
+    .filter((r) => (r.label || '').trim().length > 0)
+    .map((r) => ({
+      label: r.label,
+      value: r.value,
+      detail: r.detail,
+      icon: r.icon || '•',
+      accent: r.accent || 'text-accent-slate',
+    }));
+  const stats = liveStats.length > 0 ? liveStats : FALLBACK_STATS;
 
   return (
     <div>

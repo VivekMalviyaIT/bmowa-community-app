@@ -1,6 +1,5 @@
 import EditorialCard from '@/components/EditorialCard';
 import PageHeader from '@/components/PageHeader';
-import { fetchSheetData } from '@/lib/googleSheets';
 
 interface ServiceItem {
   title: string;
@@ -76,14 +75,7 @@ const COMMUNITY_SERVICES: ServiceItem[] = [
   },
 ];
 
-export default async function ServicesPage() {
-  let sheetData: Array<Record<string, string>> = [];
-  try {
-    sheetData = (await fetchSheetData('Sheet1')) as Record<string, string>[];
-  } catch (e) {
-    console.error('Failed to fetch services data:', e);
-  }
-
+export default function ServicesPage() {
   const categories = [...new Set(COMMUNITY_SERVICES.map(s => s.category))];
 
   const getStatusStyle = (status: string) => {

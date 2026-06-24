@@ -208,7 +208,7 @@ export default function FeedbackPage() {
             className={`w-full py-3.5 text-sm font-semibold rounded-full transition-all ${
               isSubmitting
                 ? 'bg-foreground/5 text-text-subtle cursor-not-allowed'
-                : 'bg-foreground text-white hover:bg-foreground/90'
+                : 'bg-foreground text-background hover:bg-foreground/90'
             }`}
           >
             {isSubmitting ? 'Submitting...' : 'Submit Feedback'}

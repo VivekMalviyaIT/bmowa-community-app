@@ -1,6 +1,5 @@
 import EditorialCard from '@/components/EditorialCard';
 import PageHeader from '@/components/PageHeader';
-import { fetchSheetData } from '@/lib/googleSheets';
 
 const sections = [
   { 
@@ -48,14 +47,7 @@ const sections = [
   },
 ];
 
-export default async function HandbookPage() {
-  let sheetData: Record<string, string>[] = [];
-  try {
-    sheetData = (await fetchSheetData('Sheet1')) as Record<string, string>[];
-  } catch (e) {
-    console.error('Failed to fetch handbook data:', e);
-  }
-
+export default function HandbookPage() {
   return (
     <div>
       <PageHeader title="Handbook" subtitle="Community Guidelines & Standard Operating Procedures" />

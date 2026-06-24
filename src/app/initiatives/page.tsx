@@ -1,6 +1,11 @@
 import EditorialCard from '@/components/EditorialCard';
 import PageHeader from '@/components/PageHeader';
-import { fetchSheetData } from '@/lib/googleSheets';
+import { getTab } from '@/lib/sheets.server';
+import { TABS } from '@/config/sheetConfig';
+
+// Re-read the sheet at request time so edits show up live (rather than being
+// frozen at build time).
+export const dynamic = 'force-dynamic';
 
 interface Initiative {
   title: string;
@@ -55,33 +60,23 @@ const FALLBACK_INITIATIVES: Initiative[] = [
 ];
 
 export default async function InitiativesPage() {
-  let sheetData: Array<Record<string, string>> = [];
-  try {
-    sheetData = (await fetchSheetData('Sheet1')) as Record<string, string>[];
-  } catch (e) {
-    console.error('Failed to fetch initiatives data:', e);
-  }
+  // Live data from the "Initiatives" tab (columns: title, status, description,
+  // progress, color, recommendation). Falls back to defaults if unavailable.
+  const sheetData = await getTab(TABS.initiatives);
 
   let initiatives: Initiative[] = FALLBACK_INITIATIVES;
 
   if (sheetData.length > 0) {
     const sheetInitiatives = sheetData
-      .filter(row => {
-        const values = Object.values(row).join(' ').toLowerCase();
-        return values.includes('initiative') || values.includes('project') ||
-               values.includes('kaveri') || values.includes('stp') ||
-               values.includes('cctv') || values.includes('registration');
-      })
-      .map(row => {
-        const vals = Object.values(row);
-        return {
-          title: vals[0] || vals[1] || 'Unknown',
-          status: vals[2] || vals[1] || 'Pending',
-          description: vals[3] || vals[2] || '',
-          progress: parseInt(vals[4] || '0') || 0,
-          color: 'slate',
-        };
-      });
+      .filter((row) => (row.title || '').trim().length > 0)
+      .map((row) => ({
+        title: row.title,
+        status: row.status || 'Pending',
+        description: row.description || '',
+        progress: parseInt(row.progress || '0', 10) || 0,
+        color: row.color || 'slate',
+        recommendation: row.recommendation || undefined,
+      }));
 
     if (sheetInitiatives.length > 0) {
       initiatives = sheetInitiatives;
