@@ -2,12 +2,11 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "export",
-  // Move the dev-only indicator to the bottom-right so it doesn't sit on top of
-  // the design switcher (which lives in the bottom-left corner). Dev-only — has
-  // no effect on the production build.
-  devIndicators: {
-    position: "top-right",
-  },
+  // Hide the dev-only indicator badge. It only renders during `next dev` (never
+  // in the production/Vercel build) and was surfacing false-positive "issues"
+  // from browser extensions that mutate the DOM before React hydrates. Genuine
+  // runtime errors still show via Next's full error overlay.
+  devIndicators: false,
 };
 
 export default nextConfig;

@@ -238,7 +238,10 @@ body {
 .sidebar-editorial {
   background: var(--sidebar-bg);
   border-right: 1px solid var(--sidebar-border);
-  position: relative;
+  /* NOTE: do not set `position` here — the sidebar relies on Tailwind's
+     `fixed` utility, and an equal-specificity `position` here would override
+     it (this file loads after Tailwind utilities). `fixed` already creates the
+     containing block for the ::before glow; `overflow: hidden` clips it. */
   overflow: hidden;
   transition: background 0.4s ease, border-color 0.4s ease;
 }
