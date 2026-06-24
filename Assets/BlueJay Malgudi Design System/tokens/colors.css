@@ -1,0 +1,141 @@
+/* ============================================================
+   BlueJay Malgudi — Color system
+   ------------------------------------------------------------
+   Brand is drawn from the Malgudi "Earthen Villas" crest — a warm
+   terracotta-maroon — paired with garden green (the lush, leafy
+   community) and a Claude-inspired cream canvas. Earthy, calm,
+   sunlit. Maroon leads; green and sand support.
+   ============================================================ */
+
+:root {
+  /* ---- PRIMARY · Malgudi Maroon (the crest) ------------------ */
+  --maroon-50:  #FBF1F0;
+  --maroon-100: #F6DDDB;
+  --maroon-200: #EBBBB8;
+  --maroon-300: #DB908C;
+  --maroon-400: #C5615E;
+  --maroon-500: #A8302F;  /* the crest red */
+  --maroon-600: #8C2D33;  /* brand primary */
+  --maroon-700: #73262C;  /* deep maroon */
+  --maroon-800: #571F25;
+  --maroon-900: #3F171C;
+  --maroon-950: #2A0F13;  /* aubergine-black, dark canvas */
+
+  /* ---- SECONDARY · Garden Green (greenery) ------------------- */
+  --green-50:  #F0F4F0;
+  --green-100: #DCE7DD;
+  --green-200: #BBD0BF;
+  --green-300: #93B49B;
+  --green-400: #6E977A;
+  --green-500: #4F7A5C;
+  --green-600: #3C6B4E;  /* secondary */
+  --green-700: #2F543E;
+  --green-800: #264332;
+  --green-900: #1D3327;
+
+  /* ---- TERTIARY · Sand / Clay (sunlight, earthen) ----------- */
+  --sand-50:  #FAF6EF;
+  --sand-100: #F3E9D6;
+  --sand-200: #E8D5B4;
+  --sand-300: #D8BC8C;
+  --sand-400: #C4A882;  /* warm accent from app */
+  --sand-500: #B08E5E;
+  --sand-600: #94733F;
+  --sand-700: #75592F;
+  --sand-800: #574323;
+  --sand-900: #3C2E18;
+
+  /* ---- NEUTRALS · Claude cream + warm ink ------------------- */
+  --cream-50:  #FCFBF7;  /* lightest surface */
+  --cream-100: #F7F4EC;  /* app canvas (Claude-ish) */
+  --cream-200: #EFEADD;
+  --cream-300: #E3DCCB;  /* hairline / divider */
+  --cream-400: #CFC6B2;
+
+  --ink-900: #2A2622;   /* warm near-black, primary text */
+  --ink-800: #3A352F;
+  --ink-700: #4A443D;
+  --ink-600: #5E574D;
+  --ink-500: #756E64;   /* muted text */
+  --ink-400: #9B9488;   /* subtle text */
+  --ink-300: #C2BBAE;   /* disabled */
+  --white:   #FFFFFF;
+
+  /* ---- SEMANTIC scales -------------------------------------- */
+  --success: var(--green-600);
+  --success-soft: #E7F0E9;
+  --warning: #B8860B;   /* amber */
+  --warning-soft: #F6ECCF;
+  --danger:  #B0322E;   /* matches maroon family */
+  --danger-soft: #F7DEDC;
+  --info:    #51687E;   /* slate */
+  --info-soft: #E4E9EF;
+
+  /* ============================================================
+     SEMANTIC ALIASES · LIGHT (default)
+     ============================================================ */
+  --bg-app:        var(--cream-100);
+  --bg-subtle:     var(--cream-200);
+  --surface-card:  var(--white);
+  --surface-raised:var(--cream-50);
+  --surface-sunk:  var(--cream-100);
+
+  --border-hairline: var(--cream-300);
+  --border-strong:   var(--cream-400);
+
+  --text-heading:  var(--ink-900);
+  --text-body:     var(--ink-700);
+  --text-muted:    var(--ink-500);
+  --text-subtle:   var(--ink-400);
+  --text-on-brand: var(--cream-50);
+
+  --brand:         var(--maroon-600);
+  --brand-hover:   var(--maroon-700);
+  --brand-press:   var(--maroon-800);
+  --brand-soft:    var(--maroon-50);
+  --brand-ring:    color-mix(in srgb, var(--maroon-600) 22%, transparent);
+
+  --accent-green:  var(--green-600);
+  --accent-sand:   var(--sand-500);
+
+  color-scheme: light;
+}
+
+/* ============================================================
+   SEMANTIC ALIASES · DARK
+   Deep maroon / aubergine canvas, illuminated surfaces.
+   Apply with <html data-theme="dark"> or .theme-dark.
+   ============================================================ */
+:root[data-theme="dark"],
+.theme-dark {
+  --bg-app:        var(--maroon-950);
+  --bg-subtle:     #210C10;
+  --surface-card:  #2F151A;
+  --surface-raised:#3A1B21;
+  --surface-sunk:  #240F13;
+
+  --border-hairline: color-mix(in srgb, #E9C9C9 14%, transparent);
+  --border-strong:   color-mix(in srgb, #E9C9C9 24%, transparent);
+
+  --text-heading:  #F7ECE9;
+  --text-body:     #E6D2D0;
+  --text-muted:    #C2A6A8;
+  --text-subtle:   #9C8084;
+  --text-on-brand: #FBF1F0;
+
+  --brand:         var(--maroon-300);
+  --brand-hover:   var(--maroon-200);
+  --brand-press:   var(--maroon-100);
+  --brand-soft:    color-mix(in srgb, var(--maroon-400) 18%, transparent);
+  --brand-ring:    color-mix(in srgb, var(--maroon-300) 35%, transparent);
+
+  --accent-green:  var(--green-300);
+  --accent-sand:   var(--sand-300);
+
+  --success-soft: color-mix(in srgb, var(--green-400) 18%, transparent);
+  --warning-soft: color-mix(in srgb, var(--warning) 20%, transparent);
+  --danger-soft:  color-mix(in srgb, var(--danger) 24%, transparent);
+  --info-soft:    color-mix(in srgb, var(--info) 24%, transparent);
+
+  color-scheme: dark;
+}

@@ -1,0 +1,19 @@
+<!-- @dsCard group="Spacing" viewport="700x180" name="Elevation" subtitle="Soft, low-contrast shadows — xs to lg." -->
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin:0; padding:28px; background:var(--bg-app); font-family:var(--font-sans); }
+  .row { display:flex; gap:26px; align-items:center; }
+  .item { text-align:center; }
+  .box { width:110px; height:74px; background:var(--surface-card); border-radius:16px; }
+  .lab { font-size:10px; color:var(--text-muted); margin-top:12px; font-family:var(--font-mono); }
+</style></head>
+<body>
+<div class="row">
+  <div class="item"><div class="box" style="box-shadow:var(--shadow-xs)"></div><div class="lab">xs</div></div>
+  <div class="item"><div class="box" style="box-shadow:var(--shadow-sm)"></div><div class="lab">sm ·card</div></div>
+  <div class="item"><div class="box" style="box-shadow:var(--shadow-md)"></div><div class="lab">md ·hover</div></div>
+  <div class="item"><div class="box" style="box-shadow:var(--shadow-lg)"></div><div class="lab">lg ·modal</div></div>
+</div>
+</body></html>

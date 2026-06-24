@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>BlueJay Malgudi — Community App</title>
+<link rel="stylesheet" href="_ds/bluejay-malgudi-design-system-8a1bfb40-25f4-42d2-81e1-ab9fded223b9/tokens/fonts.css" />
+<link rel="stylesheet" href="_ds/bluejay-malgudi-design-system-8a1bfb40-25f4-42d2-81e1-ab9fded223b9/tokens/colors.css" />
+<link rel="stylesheet" href="_ds/bluejay-malgudi-design-system-8a1bfb40-25f4-42d2-81e1-ab9fded223b9/tokens/typography.css" />
+<link rel="stylesheet" href="_ds/bluejay-malgudi-design-system-8a1bfb40-25f4-42d2-81e1-ab9fded223b9/tokens/spacing.css" />
+<link rel="stylesheet" href="_ds/bluejay-malgudi-design-system-8a1bfb40-25f4-42d2-81e1-ab9fded223b9/tokens/base.css" />
+<link rel="stylesheet" href="_ds/bluejay-malgudi-design-system-8a1bfb40-25f4-42d2-81e1-ab9fded223b9/styles.css" />
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="_ds/bluejay-malgudi-design-system-8a1bfb40-25f4-42d2-81e1-ab9fded223b9/_ds_bundle.js"></script>
+<style>
+  html, body { margin: 0; height: 100%; background: var(--bg-app); }
+  #root { height: 100vh; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="app/tweaks-panel.jsx"></script>
+<script type="text/babel" src="app/Sidebar.jsx"></script>
+<script type="text/babel" src="app/Spotlight.jsx"></script>
+<script type="text/babel" src="app/Snapshot.jsx"></script>
+<script type="text/babel" src="app/Initiatives.jsx"></script>
+<script type="text/babel" src="app/Handbook.jsx"></script>
+<script type="text/babel" src="app/Services.jsx"></script>
+<script type="text/babel" src="app/Events.jsx"></script>
+<script type="text/babel" src="app/Feedback.jsx"></script>
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "mood": "dusk",
+  "brand": "maroon",
+  "atmosphere": "illuminated"
+}/*EDITMODE-END*/;
+
+// Brand "voice" — remaps the brand tokens + the signature gradient that
+// buttons, progress fills, badges and the sidebar accent all read from.
+const BRAND_SETS = {
+  maroon: {
+    grad: 'linear-gradient(135deg,#A8302F 0%,#571F25 100%)',
+    light: { brand: '#8C2D33', hover: '#73262C', press: '#571F25', soft: '#FBF1F0', ring: 'rgba(140,45,51,.22)' },
+    dark:  { brand: '#DB908C', hover: '#EBBBB8', press: '#F6DDDB', soft: 'rgba(197,97,94,.18)', ring: 'rgba(219,144,140,.35)' },
+    bloom: '#A8302F',
+  },
+  garden: {
+    grad: 'linear-gradient(135deg,#6E977A 0%,#2F543E 100%)',
+    light: { brand: '#3C6B4E', hover: '#2F543E', press: '#264332', soft: '#F0F4F0', ring: 'rgba(60,107,78,.22)' },
+    dark:  { brand: '#93B49B', hover: '#BBD0BF', press: '#DCE7DD', soft: 'rgba(110,151,122,.18)', ring: 'rgba(147,180,155,.35)' },
+    bloom: '#4F7A5C',
+  },
+  sand: {
+    grad: 'linear-gradient(135deg,#D8BC8C 0%,#94733F 100%)',
+    light: { brand: '#94733F', hover: '#75592F', press: '#574323', soft: '#FAF6EF', ring: 'rgba(148,115,63,.24)' },
+    dark:  { brand: '#D8BC8C', hover: '#E8D5B4', press: '#F3E9D6', soft: 'rgba(176,142,94,.20)', ring: 'rgba(216,188,140,.35)' },
+    bloom: '#B08E5E',
+  },
+};
+
+function applyFeel(t) {
+  const root = document.documentElement;
+  const dark = t.mood === 'dusk';
+  root.setAttribute('data-theme', dark ? 'dark' : 'light');
+
+  const set = BRAND_SETS[t.brand] || BRAND_SETS.maroon;
+  const v = dark ? set.dark : set.light;
+  root.style.setProperty('--brand', v.brand);
+  root.style.setProperty('--brand-hover', v.hover);
+  root.style.setProperty('--brand-press', v.press);
+  root.style.setProperty('--brand-soft', v.soft);
+  root.style.setProperty('--brand-ring', v.ring);
+  root.style.setProperty('--gradient-maroon', set.grad);
+
+  if (t.atmosphere === 'calm') {
+    root.style.setProperty('--gradient-illume', 'none');
+    root.style.setProperty('--shadow-sm', dark ? '0 1px 2px rgba(0,0,0,.3)' : '0 1px 2px rgba(42,38,34,.05)');
+  } else {
+    root.style.removeProperty('--gradient-illume');
+    root.style.removeProperty('--shadow-sm');
+  }
+}
+
+function AtmosphereBlooms({ brand, mood }) {
+  const set = BRAND_SETS[brand] || BRAND_SETS.maroon;
+  const intensity = mood === 'dusk' ? 0.32 : 0.16;
+  return (
+    <div aria-hidden style={{ position: 'fixed', inset: 0, pointerEvents: 'none', zIndex: 0, overflow: 'hidden' }}>
+      <div style={{
+        position: 'absolute', top: '-18%', right: '-8%', width: '55%', height: '55%', borderRadius: '50%',
+        background: 'radial-gradient(ellipse at center, color-mix(in srgb, var(--sand-400) ' + Math.round(intensity * 100 * 1.4) + '%, transparent) 0%, transparent 70%)',
+      }} />
+      <div style={{
+        position: 'absolute', bottom: '-16%', left: '-6%', width: '48%', height: '48%', borderRadius: '50%',
+        background: 'radial-gradient(ellipse at center, color-mix(in srgb, ' + set.bloom + ' ' + Math.round(intensity * 100) + '%, transparent) 0%, transparent 70%)',
+      }} />
+    </div>
+  );
+}
+
+function App() {
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+  const [screen, setScreen] = React.useState(() => {
+    try { return localStorage.getItem('bmowa-screen') || 'Spotlight'; } catch (e) { return 'Spotlight'; }
+  });
+
+  React.useEffect(() => { applyFeel(t); }, [t.mood, t.brand, t.atmosphere]);
+  React.useEffect(() => { try { localStorage.setItem('bmowa-screen', screen); } catch (e) {} }, [screen]);
+  React.useEffect(() => { window.__goScreen = setScreen; }, []);
+
+  const Screens = {
+    Spotlight: window.Spotlight,
+    Snapshot: window.Snapshot,
+    Initiatives: window.Initiatives,
+    Handbook: window.Handbook,
+    Services: window.Services,
+    Events: window.Events,
+    Feedback: window.Feedback,
+  };
+  const Current = Screens[screen] || window.Spotlight;
+
+  return (
+    <div style={{ position: 'relative', display: 'flex', height: '100vh', background: 'var(--bg-app)' }}>
+      {t.atmosphere === 'illuminated' && <AtmosphereBlooms brand={t.brand} mood={t.mood} />}
+      <window.Sidebar active={screen} onNavigate={setScreen} />
+      <main style={{ position: 'relative', zIndex: 1, flex: 1, overflowY: 'auto' }}>
+        <div style={{ maxWidth: 'var(--container-max)', margin: '0 auto', padding: '56px 56px 80px' }}>
+          <Current key={screen} />
+        </div>
+      </main>
+
+      <TweaksPanel>
+        <TweakSection label="Mood" />
+        <TweakRadio label="Time of day" value={t.mood}
+          options={['daylight', 'dusk']}
+          onChange={(v) => setTweak('mood', v)} />
+        <TweakSection label="Brand voice" />
+        <TweakRadio label="Accent" value={t.brand}
+          options={['maroon', 'garden', 'sand']}
+          onChange={(v) => setTweak('brand', v)} />
+        <TweakSection label="Atmosphere" />
+        <TweakRadio label="Lighting" value={t.atmosphere}
+          options={['calm', 'illuminated']}
+          onChange={(v) => setTweak('atmosphere', v)} />
+      </TweaksPanel>
+    </div>
+  );
+}
+
+function mount() {
+  if (!window.Sidebar || !window.Spotlight || !window.Snapshot || !window.Initiatives
+      || !window.Handbook || !window.Services || !window.Events || !window.Feedback
+      || typeof useTweaks === 'undefined' || typeof TweaksPanel === 'undefined') {
+    return setTimeout(mount, 30);
+  }
+  ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+}
+mount();
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!-- @dsCard group="Colors" viewport="700x180" name="Dark Mode — Aubergine canvas" subtitle="Deep maroon surfaces, illuminated. data-theme=dark" -->
+<!DOCTYPE html>
+<html lang="en" data-theme="dark"><head><meta charset="utf-8" />
+<link rel="stylesheet" href="../styles.css" />
+<style>
+  body { margin:0; padding:22px; background:var(--bg-app); font-family:var(--font-sans); }
+  .grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+  .tile { height:84px; border-radius:12px; border:1px solid var(--border-hairline); display:flex; flex-direction:column; justify-content:flex-end; padding:9px 10px; }
+  .n { font-size:11px; font-weight:600; color:var(--text-heading); }
+  .h { font-size:9px; font-family:var(--font-mono); color:var(--text-subtle); }
+  .cap { margin-top:14px; font-size:12px; color:var(--text-muted); }
+</style></head>
+<body>
+<div class="grid">
+  <div class="tile" style="background:var(--bg-app)"><span class="n">bg-app</span><span class="h">#2A0F13</span></div>
+  <div class="tile" style="background:var(--surface-card)"><span class="n">surface</span><span class="h">#2F151A</span></div>
+  <div class="tile" style="background:var(--surface-raised)"><span class="n">raised</span><span class="h">#3A1B21</span></div>
+  <div class="tile" style="background:var(--gradient-maroon)"><span class="n" style="color:#fff">brand grad</span></div>
+</div>
+<div class="cap">Dark mode is the maroon family turned down: aubergine canvas, illuminated maroon surfaces, lighter rose text.</div>
+</body></html>

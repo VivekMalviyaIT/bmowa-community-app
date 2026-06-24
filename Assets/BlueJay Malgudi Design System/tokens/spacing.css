@@ -1,0 +1,63 @@
+/* ============================================================
+   BlueJay Malgudi — Spacing, radii, shadows, gradients, motion
+   ============================================================ */
+
+:root {
+  /* ---- Spacing (4px base) ---- */
+  --space-1:  0.25rem;   /* 4 */
+  --space-2:  0.5rem;    /* 8 */
+  --space-3:  0.75rem;   /* 12 */
+  --space-4:  1rem;      /* 16 */
+  --space-5:  1.25rem;   /* 20 */
+  --space-6:  1.5rem;    /* 24 */
+  --space-8:  2rem;      /* 32 */
+  --space-10: 2.5rem;    /* 40 */
+  --space-12: 3rem;      /* 48 */
+  --space-16: 4rem;      /* 64 */
+  --space-20: 5rem;      /* 80 */
+
+  /* ---- Radii (soft, generous — the editorial card look) ---- */
+  --radius-sm:   8px;
+  --radius-md:   12px;
+  --radius-lg:   16px;
+  --radius-xl:   24px;   /* default card */
+  --radius-2xl:  32px;   /* hero / feature card */
+  --radius-pill: 999px;  /* badges, buttons, chips */
+
+  /* ---- Elevation · soft, low-contrast (light mode) ---- */
+  --shadow-xs: 0 1px 2px rgba(42, 38, 34, 0.04);
+  --shadow-sm: 0 1px 3px rgba(42, 38, 34, 0.05), 0 4px 12px rgba(42, 38, 34, 0.03);
+  --shadow-md: 0 2px 8px rgba(42, 38, 34, 0.06), 0 12px 28px rgba(42, 38, 34, 0.06);
+  --shadow-lg: 0 8px 24px rgba(42, 38, 34, 0.08), 0 24px 56px rgba(42, 38, 34, 0.08);
+
+  /* ---- Illumination · "backlit" glows ---- */
+  --glow-maroon: 0 6px 24px color-mix(in srgb, var(--maroon-500) 30%, transparent);
+  --glow-green:  0 6px 24px color-mix(in srgb, var(--green-500) 28%, transparent);
+  --glow-sand:   0 6px 22px color-mix(in srgb, var(--sand-400) 36%, transparent);
+
+  /* ---- Gradients · the "modern, illuminated" layer ---- */
+  /* Brand */
+  --gradient-maroon: linear-gradient(135deg, #A8302F 0%, #571F25 100%); /* @kind other */
+  --gradient-maroon-soft: linear-gradient(135deg, #FBF1F0 0%, #F6DDDB 100%); /* @kind other */
+  /* Sunset — sunlight meeting the crest */
+  --gradient-sunset: linear-gradient(135deg, #E8D5B4 0%, #C5615E 48%, #8C2D33 100%); /* @kind other */
+  /* Garden — the greenery */
+  --gradient-garden: linear-gradient(135deg, #6E977A 0%, #2F543E 100%); /* @kind other */
+  /* Dawn — calm cream canvas wash */
+  --gradient-dawn: linear-gradient(180deg, #FCFBF7 0%, #F3E9D6 100%); /* @kind other */
+  /* Dusk — dark-mode aubergine canvas */
+  --gradient-dusk: linear-gradient(160deg, #3F171C 0%, #2A0F13 70%); /* @kind other */
+  /* Illumination — radial backlight bloom (place behind hero content) */
+  --gradient-illume: radial-gradient(60% 60% at 50% 0%, color-mix(in srgb, var(--sand-300) 55%, transparent) 0%, transparent 70%); /* @kind other */
+
+  /* ---- Motion ---- */
+  --ease-editorial: cubic-bezier(0.25, 0.46, 0.45, 0.94); /* @kind other */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --dur-fast:   0.15s; /* @kind other */
+  --dur-normal: 0.25s; /* @kind other */
+  --dur-slow:   0.5s; /* @kind other */
+
+  /* ---- Layout ---- */
+  --container-max: 64rem;   /* 1024 — editorial column */
+  --sidebar-w: 15rem;       /* 240 */
+}

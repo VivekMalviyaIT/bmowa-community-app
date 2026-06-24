@@ -1,0 +1,10 @@
+/* ============================================================
+   BlueJay Malgudi — Web fonts
+   Display: Instrument Serif (editorial headlines)
+   Body/UI: Inter (interface + running text)
+   Mono:    JetBrains Mono (reference IDs, data, code)
+   Loaded from Google Fonts CDN. See readme.md → CAVEATS if you
+   need self-hosted binaries.
+   ============================================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
