@@ -146,4 +146,25 @@ After step 4, ask Claude to verify the sheet structure (Claude has Drive read).
 
 ---
 
+## 2026-06-25 (cont.) — Backend live, favicon, migration doc
+
+- **Backend is LIVE in production.** User created the GCP service account + key,
+  shared the sheet, added `GOOGLE_SERVICE_ACCOUNT_JSON` to Vercel, and pushed
+  commit `a60b891` (this session's full page-wiring). Verified: editing the sheet
+  reflects on the live Vercel site. Sheet `1_wVJu9SgyuJN97K-…` is populated (all 9
+  tabs) — done via `setup-sheets.mjs` with the real credential.
+  - `GOOGLE_SHEET_ID` is NOT set on Vercel; code default covers it (fine).
+  - A flattened (one-line) `.env.local` lives in this worktree (gitignored) for
+    local live-data dev.
+- **Favicon added.** Cropped the red Malgudi emblem out of `public/malgudi-logo.png`
+  (sharp) into App-Router icon files: `src/app/icon.png` (256, transparent),
+  `src/app/apple-icon.png` (180), `src/app/favicon.ico` (32). Next auto-emits the
+  `<link rel=icon>` tags; verified all three serve 200 locally. Tab now shows the crest.
+- **New doc:** `docs/migration-to-new-account.md` — full runbook for moving Google
+  account + Drive/Sheet + GCP SA + GitHub + Vercel to a fresh account. Key point:
+  code never changes, only the two env vars (`GOOGLE_SERVICE_ACCOUNT_JSON`,
+  `GOOGLE_SHEET_ID`); transferring sheet ownership keeps the same ID.
+
+---
+
 <!-- Add new session entries above this line. -->
