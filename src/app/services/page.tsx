@@ -1,5 +1,10 @@
 import EditorialCard from '@/components/EditorialCard';
 import PageHeader from '@/components/PageHeader';
+import { getTab } from '@/lib/sheets.server';
+import { TABS } from '@/config/sheetConfig';
+
+// Re-read the sheet at request time so edits show up live.
+export const dynamic = 'force-dynamic';
 
 interface ServiceItem {
   title: string;
@@ -9,7 +14,7 @@ interface ServiceItem {
   category: string;
 }
 
-const COMMUNITY_SERVICES: ServiceItem[] = [
+const FALLBACK_SERVICES: ServiceItem[] = [
   {
     title: 'Water Supply — 6-Step Process',
     icon: '💧',
@@ -75,8 +80,27 @@ const COMMUNITY_SERVICES: ServiceItem[] = [
   },
 ];
 
-export default function ServicesPage() {
-  const categories = [...new Set(COMMUNITY_SERVICES.map(s => s.category))];
+const VALID_STATUSES = new Set(['operational', 'degraded', 'down']);
+
+export default async function ServicesPage() {
+  // Live data from the "Services" tab (columns: title, icon, status, category,
+  // details). Falls back to the built-in list if the sheet is unavailable.
+  const rows = await getTab(TABS.services);
+  const liveServices: ServiceItem[] = rows
+    .filter((r) => (r.title || '').trim().length > 0)
+    .map((r) => {
+      const s = (r.status || '').trim().toLowerCase();
+      return {
+        title: r.title,
+        icon: r.icon || '•',
+        status: (VALID_STATUSES.has(s) ? s : 'operational') as ServiceItem['status'],
+        details: r.details || '',
+        category: r.category || 'General',
+      };
+    });
+  const services = liveServices.length > 0 ? liveServices : FALLBACK_SERVICES;
+
+  const categories = [...new Set(services.map(s => s.category))];
 
   const getStatusStyle = (status: string) => {
     switch (status) {
@@ -97,19 +121,19 @@ export default function ServicesPage() {
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-accent-emerald" />
             <span className="text-xs text-text-muted">
-              {COMMUNITY_SERVICES.filter(s => s.status === 'operational').length} Operational
+              {services.filter(s => s.status === 'operational').length} Operational
             </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-accent-amber" />
             <span className="text-xs text-text-muted">
-              {COMMUNITY_SERVICES.filter(s => s.status === 'degraded').length} Degraded
+              {services.filter(s => s.status === 'degraded').length} Degraded
             </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-accent-red" />
             <span className="text-xs text-text-muted">
-              {COMMUNITY_SERVICES.filter(s => s.status === 'down').length} Down
+              {services.filter(s => s.status === 'down').length} Down
             </span>
           </div>
         </div>
@@ -122,7 +146,7 @@ export default function ServicesPage() {
             {category}
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {COMMUNITY_SERVICES.filter(s => s.category === category).map((service, idx) => {
+            {services.filter(s => s.category === category).map((service, idx) => {
               const statusInfo = getStatusStyle(service.status);
               return (
                 <EditorialCard key={service.title} delay={idx * 0.06} hover={false}>

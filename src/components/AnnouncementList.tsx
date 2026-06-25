@@ -1,6 +1,9 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { fetchTab, type SheetRow } from '@/lib/sheetClient';
+import { TABS } from '@/config/sheetConfig';
 
 interface Announcement {
   id: number;
@@ -73,7 +76,32 @@ const item = {
   show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
 };
 
+const VALID_PRIORITIES = new Set(['high', 'medium', 'low']);
+
 export default function AnnouncementList() {
+  const [announcements, setAnnouncements] = useState<Announcement[]>(sampleAnnouncements);
+
+  useEffect(() => {
+    // Live rows (columns: title, desc, date, category, priority) replace the
+    // built-in fallback once the Announcements tab is populated.
+    fetchTab(TABS.announcements).then((rows: SheetRow[]) => {
+      const live = rows
+        .filter((r) => (r.title || '').trim().length > 0)
+        .map((r, i) => {
+          const p = (r.priority || '').trim().toLowerCase();
+          return {
+            id: i + 1,
+            title: r.title,
+            description: r.desc || '',
+            date: r.date || '',
+            category: r.category || 'Notice',
+            priority: (VALID_PRIORITIES.has(p) ? p : 'medium') as Announcement['priority'],
+          };
+        });
+      if (live.length > 0) setAnnouncements(live);
+    });
+  }, []);
+
   return (
     <motion.div
       variants={container}
@@ -81,7 +109,7 @@ export default function AnnouncementList() {
       animate="show"
       className="space-y-3"
     >
-      {sampleAnnouncements.map((announcement) => (
+      {announcements.map((announcement) => (
         <motion.div
           key={announcement.id}
           variants={item}

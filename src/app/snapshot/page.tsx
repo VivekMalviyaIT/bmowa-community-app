@@ -13,15 +13,29 @@ const FALLBACK_STATS = [
   { label: 'Lift Availability', value: '99.95%', detail: 'May Maintenance Report', icon: '🛗', accent: 'text-accent-rose' },
 ];
 
+const FALLBACK_GAPS = [
+  { text: '5 CCTV cameras currently non-operational since Nov 2024.', severity: 'red' },
+  { text: 'CCTV Storage limited to 5 days (Target: 15+ days).', severity: 'red' },
+  { text: 'BMOWA Registration expired since FY 2019-20. Renewal in progress.', severity: 'amber' },
+];
+
 export default function SnapshotPage() {
   const [data, setData] = useState<SheetRow[]>([]);
+  const [gapRows, setGapRows] = useState<SheetRow[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchTab(TABS.snapshot)
-      .then(setData)
-      .finally(() => setLoading(false));
+    Promise.all([
+      fetchTab(TABS.snapshot).then(setData),
+      fetchTab(TABS.snapshotGaps).then(setGapRows),
+    ]).finally(() => setLoading(false));
   }, []);
+
+  // Live gaps (columns: text, severity) override the fallback once populated.
+  const liveGaps = gapRows
+    .filter((r) => (r.text || '').trim().length > 0)
+    .map((r) => ({ text: r.text, severity: (r.severity || 'amber').trim().toLowerCase() }));
+  const gaps = liveGaps.length > 0 ? liveGaps : FALLBACK_GAPS;
 
   // Live rows (columns: label, value, detail, icon, accent) override the
   // fallback once the sheet is populated.
@@ -63,18 +77,16 @@ export default function SnapshotPage() {
             Active Operational Gaps
           </h3>
           <ul className="space-y-4">
-            <li className="flex gap-3 text-sm text-text-muted">
-              <span className="w-2 h-2 rounded-full bg-accent-red mt-1.5 flex-shrink-0" />
-              <span>5 CCTV cameras currently non-operational since Nov 2024.</span>
-            </li>
-            <li className="flex gap-3 text-sm text-text-muted">
-              <span className="w-2 h-2 rounded-full bg-accent-red mt-1.5 flex-shrink-0" />
-              <span>CCTV Storage limited to 5 days (Target: 15+ days).</span>
-            </li>
-            <li className="flex gap-3 text-sm text-text-muted">
-              <span className="w-2 h-2 rounded-full bg-accent-amber mt-1.5 flex-shrink-0" />
-              <span>BMOWA Registration expired since FY 2019-20. Renewal in progress.</span>
-            </li>
+            {gaps.map((gap, idx) => (
+              <li key={idx} className="flex gap-3 text-sm text-text-muted">
+                <span
+                  className={`w-2 h-2 rounded-full mt-1.5 flex-shrink-0 ${
+                    gap.severity === 'red' ? 'bg-accent-red' : 'bg-accent-amber'
+                  }`}
+                />
+                <span>{gap.text}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </EditorialCard>

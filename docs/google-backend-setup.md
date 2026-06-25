@@ -84,17 +84,18 @@ appear within a minute (or immediately on a fresh deploy / hard refresh).
 | Tab | Columns | Used by |
 |---|---|---|
 | `Spotlight` | key, title, value, subtitle, progress, color, icon | Home health cards + greeting (`welcome_status` row) |
-| `Announcements` | title, desc, date, category, tone | Home announcements |
-| `Snapshot` | label, value, detail, icon, accent | Snapshot stats |
-| `Snapshot_Gaps` | text, severity | Snapshot operational gaps |
+| `Announcements` | title, desc, date, category, priority | Home announcements (`priority` = high/medium/low → badge colour) |
+| `Snapshot` | label, value, detail, icon, accent | Snapshot stat cards |
+| `Snapshot_Gaps` | text, severity | Snapshot "Active Operational Gaps" (`severity` = red/amber) |
 | `Initiatives` | title, status, description, progress, color, recommendation | Initiatives |
-| `Handbook` | title, icon, description, driveUrl, details (` | `-separated) | Handbook (Drive links) |
-| `Services` | title, icon, status, category, details | Services |
-| `Events` | title, date, location, spots, formUrl, description | Events |
+| `Handbook` | title, icon, description, driveUrl, details (` | `-separated) | Handbook cards (optional Drive link per row) |
+| `Services` | title, icon, status, category, details | Services (grouped by `category`; `status` = operational/degraded/down) |
+| `Events` | title, date, time, location, spots | Events |
 | `Feedback_Responses` | timestamp, referenceId, name, flatNumber, category, subject, details, priority, status | **Write target** for the feedback form (private) |
 
 - `color`/`accent` values map to the theme accents (`blue`/`purple`/`emerald`/`amber`, or `text-accent-*`).
-- Currently wired to render live: **Spotlight** (health + greeting), **Snapshot** (stats), **Initiatives**. The remaining tabs are created/seeded and ready to be wired into their pages next.
+- **Every readable tab is now wired live** (Spotlight, Announcements, Snapshot, Snapshot_Gaps, Initiatives, Handbook, Services, Events). Each page reads its tab on load and falls back to identical built-in values, so editing a cell in the sheet changes the live page within ~60s.
+- The seed rows in `scripts/google/seed-data.mjs` are an exact mirror of each page's built-in fallback, so populating the sheet never changes what the app displays — it just moves the content into an editable source.
 
 ## Notes
 - **Feedback privacy:** the `Feedback_Responses` tab is write-only from the app and is **not** exposed by `/api/sheet-data`. Only people you share the sheet with can read it.

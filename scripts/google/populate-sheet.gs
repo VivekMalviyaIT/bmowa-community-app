@@ -64,36 +64,43 @@ var TABS = {
       "desc",
       "date",
       "category",
-      "tone"
+      "priority"
     ],
     "rows": [
       [
         "Monthly Maintenance Scheduled",
-        "Water tank cleaning and lift servicing this Saturday, 8 AM – 2 PM.",
+        "Water tank cleaning and lift servicing will be conducted this Saturday from 8 AM to 2 PM.",
         "2 Jun 2026",
         "Maintenance",
-        "danger"
+        "high"
       ],
       [
         "New Gym Equipment Arrived",
-        "New treadmills and weight stations now open for all residents.",
+        "The community gym has been upgraded with new treadmills and weight stations. Open for all residents.",
         "1 Jun 2026",
         "Amenities",
-        "warning"
+        "medium"
       ],
       [
         "Annual General Meeting",
-        "AGM on June 15th at 6 PM in the community hall. All homeowners welcome.",
+        "AGM scheduled for June 15th at 6 PM in the community hall. All homeowners requested to attend.",
         "30 May 2026",
         "Meeting",
-        "danger"
+        "high"
       ],
       [
-        "Parking Zones Repainted",
-        "Basement zones repainted — please park in your designated slot only.",
+        "Parking Zone Repainted",
+        "Basement parking zones have been repainted. Please park in your designated slot only.",
         "28 May 2026",
         "Notice",
-        "success"
+        "low"
+      ],
+      [
+        "Summer Camp for Kids",
+        "Registrations open for the community summer camp. Activities include art, sports, and coding.",
+        "26 May 2026",
+        "Events",
+        "medium"
       ]
     ]
   },
@@ -172,26 +179,34 @@ var TABS = {
         "Rainwater harvesting system to recharge borewells and reduce dependency on tanker water. Requires resident consensus and BBMP NOC.",
         "15",
         "amber",
-        ""
+        "Pending resident vote & budget approval"
       ],
       [
-        "CCTV Upgrade & Storage Extension",
-        "Active",
-        "Replace 5 non-operational cameras and extend storage from 5 to 15+ days.",
-        "40",
+        "STP Upgrade — ECO STP",
+        "Recommended",
+        "Current STP is outdated. ECO STP recommended for better efficiency, lower maintenance, and compliance with KSPCB norms.",
+        "10",
         "slate",
-        "Prioritise gate & basement coverage"
+        "ECO STP recommended — vendor evaluation in progress"
       ],
       [
-        "BMOWA Registration Renewal",
+        "CCTV System Overhaul",
         "Urgent",
-        "Renew the association registration lapsed since FY 2019-20.",
-        "60",
+        "5 out of 16 cameras are non-functional. Storage capacity only 5 days vs recommended 30 days. Full system upgrade needed.",
+        "30",
         "red",
-        "File with Registrar this quarter"
+        "Immediate repair + NVR upgrade for 30-day storage"
       ],
       [
-        "STP & Water Softening Audit",
+        "Society Re-Registration",
+        "Pending",
+        "BMOWA registration expired in FY 2019-20. Re-registration with Karnataka Societies Act required for legal standing.",
+        "5",
+        "red",
+        "Engage legal counsel for re-registration process"
+      ],
+      [
+        "Water Quality Monitoring",
         "Active",
         "6-step water purification process in place: Primary → External → Softening → Main Sump → Softening 2 → Final Cleansing.",
         "80",
@@ -214,14 +229,14 @@ var TABS = {
         "🅿️",
         "Ensuring smooth lane transit flow.",
         "",
-        "One row parks on Even days, opposite row on Odd days. | Opposite houses cannot park on the same day. | Violations are logged and penalized via MyGate."
+        "Schedule: One row parks on Even days, opposite row on Odd days. | Opposite houses cannot park on the same day. | Violations are logged and penalized via MyGate."
       ],
       [
         "6-Step Water Process",
         "💧",
         "How your water is treated and softened.",
         "",
-        "V-Pipe Primary Filtration | Settlement in External White Sintex Tanks | Softening Phase 1 (Electrolysis) | 100kL Main Sump Collection | Softening Phase 2 (Big Tube Softeners) | Final Cleansing (Wall-mounted tubes)"
+        "1. V-Pipe Primary Filtration (sediment removal) | 2. Settlement in External White Sintex Tanks | 3. Softening Phase 1 (Electrolysis Anode/Cathode) | 4. 100kL Main Sump Collection | 5. Softening Phase 2 (Big Tube Softeners) | 6. Final Cleansing (Wall-mounted tubes)"
       ],
       [
         "Resident Onboarding",
@@ -249,32 +264,67 @@ var TABS = {
     ],
     "rows": [
       [
-        "Water Supply",
+        "Water Supply — 6-Step Process",
         "💧",
         "operational",
-        "Utilities",
-        "24/7 supply via 100kL sump; tanker backup on standby."
+        "Infrastructure",
+        "Primary → External → Softening → Main Sump → Softening 2 → Final Cleansing"
       ],
       [
-        "Security & CCTV",
-        "🛡️",
-        "degraded",
-        "Safety",
-        "12 guards across day/night; 5 cameras under repair."
-      ],
-      [
-        "Lifts",
-        "🛗",
+        "Borewell System",
+        "🕳️",
         "operational",
-        "Utilities",
-        "99.95% uptime; AMC active."
+        "Infrastructure",
+        "3 active borewells • Regular yield monitoring"
+      ],
+      [
+        "CCTV Surveillance",
+        "📹",
+        "degraded",
+        "Security",
+        "11/16 cameras active • 5 down • 5-day storage only"
+      ],
+      [
+        "Security Staff",
+        "🛡️",
+        "operational",
+        "Security",
+        "24/7 security at main gate • Patrol rounds every 2 hours"
+      ],
+      [
+        "STP (Sewage Treatment)",
+        "♻️",
+        "degraded",
+        "Infrastructure",
+        "Current STP operational but outdated • ECO STP upgrade recommended"
       ],
       [
         "Housekeeping",
         "🧹",
         "operational",
-        "Facilities",
-        "Daily common-area cleaning; waste segregation enforced."
+        "Maintenance",
+        "Daily common area cleaning • Staircase cleaning alternate days"
+      ],
+      [
+        "Electrical Maintenance",
+        "⚡",
+        "operational",
+        "Maintenance",
+        "On-call electrician • DG backup for common areas"
+      ],
+      [
+        "Plumbing Services",
+        "🔧",
+        "operational",
+        "Maintenance",
+        "On-call plumber • Emergency response within 30 mins"
+      ],
+      [
+        "Waste Management",
+        "🗑️",
+        "operational",
+        "Infrastructure",
+        "Wet & dry segregation • BBMP pickup daily"
       ]
     ]
   },
@@ -282,27 +332,38 @@ var TABS = {
     "header": [
       "title",
       "date",
+      "time",
       "location",
-      "spots",
-      "formUrl",
-      "description"
+      "spots"
     ],
     "rows": [
       [
-        "Annual General Meeting",
-        "15 Jun 2026",
+        "Summer Camp for Kids",
+        "Jun 10–20",
+        "9:00 AM – 12:00 PM",
         "Community Hall",
-        "",
-        "",
-        "AGM at 6 PM. All homeowners welcome."
+        "8 spots left"
       ],
       [
-        "Summer Pool Party",
-        "22 Jun 2026",
-        "Clubhouse Pool",
-        "40",
-        "",
-        "Residents and family. RSVP via the form."
+        "Annual General Meeting",
+        "Jun 15",
+        "6:00 PM – 8:00 PM",
+        "Clubhouse",
+        "All welcome"
+      ],
+      [
+        "Yoga & Meditation",
+        "Every Sunday",
+        "6:30 AM – 7:30 AM",
+        "Garden Area",
+        "Open"
+      ],
+      [
+        "Movie Night",
+        "Jun 22",
+        "7:00 PM",
+        "Terrace",
+        "25 spots left"
       ]
     ]
   },

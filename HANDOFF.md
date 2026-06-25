@@ -81,4 +81,69 @@ local `main`. Final commit: `08369e5`. **Not pushed** — `main` is ahead 3 of
 
 ---
 
+## 2026-06-25 — Wire every page to the sheet + reconcile seed data
+
+**Branch:** `claude/gallant-ramanujan-b120a2` (worktree). Build green, TS clean,
+verified in browser with fallback data. **Not merged, not pushed.**
+
+### Decision
+User confirmed: **keep the service-account backend** (current design) — sheet
+stays private; live edits reflect in the app. The only irreducible user steps
+are the ones Google requires a human for (make the service account + key, share
+the sheet). Everything else is now done in code.
+
+### What was done (all autonomous — no creds needed)
+1. **Wired the remaining pages to the sheet** (previously hardcoded), each with a
+   built-in fallback so the app still renders with no creds:
+   - **Announcements** (home) — `AnnouncementList.tsx` now fetches the
+     `Announcements` tab (client). Column `tone` → **`priority`** (high/medium/low).
+   - **Snapshot → Active Operational Gaps** — now reads `Snapshot_Gaps`
+     (the stat cards were already wired).
+   - **Handbook** — converted to an **async server component** reading `Handbook`
+     (`details` split on ` | `; optional `driveUrl` renders an "Open document →" link).
+   - **Services** — converted to an **async server component** reading `Services`
+     (kept category grouping + the Operational/Degraded/Down summary bar).
+   - **Events** — converted to an **async server component** reading `Events`.
+     Columns now `title, date, time, location, spots` (was location/spots/formUrl/desc).
+   - Result: `/handbook`, `/services`, `/events`, `/initiatives` are now `ƒ`
+     (dynamic, re-read per request); home + snapshot fetch client-side.
+2. **Reconciled `scripts/google/seed-data.mjs`** so each tab is an **exact mirror**
+   of what every page currently displays (Announcements ×5, Initiatives ×5,
+   Services ×9, Events ×4 with time/spots, Handbook details). Previously the seed
+   was thinner/stale — populating would have *removed* live content. Fixed.
+3. **Regenerated `scripts/google/populate-sheet.gs`** from the new seed
+   (`node scripts/google/make-apps-script.mjs`).
+4. Added `.claude/launch.json` (preview config; gitignored under `.claude/`).
+
+### State at end of session
+- Sheet `BMOWA Web App — Live Data`
+  (`1_wVJu9SgyuJN97K-zgnYs3PWFX95gX7LOGM5ardWbF4`) is **still empty** — populating
+  needs a write credential (see below).
+- App is fully sheet-driven with identical fallbacks → looks unchanged until the
+  sheet is populated, then the sheet becomes the single source of truth.
+
+### Remaining steps — USER must do these (Google requires a human)
+These are the *only* things blocking go-live; do them once, in order:
+1. **GCP service account + JSON key** — `docs/google-backend-setup.md` §1
+   (create project → enable Sheets API → service account → JSON key).
+2. **Share the sheet** with the service-account email as **Editor** — §2.
+3. **`.env.local`** in this worktree: copy `.env.example`, paste the whole JSON
+   into `GOOGLE_SERVICE_ACCOUNT_JSON` (one line) — §3.
+4. **Populate the sheet** (one command, also acts as the round-trip test):
+   `node --env-file=.env.local scripts/google/setup-sheets.mjs`
+   *(Alternative, no key needed: paste `scripts/google/populate-sheet.gs` into the
+   sheet's Apps Script editor and run `populateBMOWASheet`.)*
+5. **Vercel env vars** — add `GOOGLE_SERVICE_ACCOUNT_JSON` (+ optional
+   `GOOGLE_SHEET_ID`) in Project → Settings → Environment Variables, redeploy.
+6. **Verify live:** edit a `Spotlight`/`Services`/`Events` cell, refresh → it changes.
+
+After step 4, ask Claude to verify the sheet structure (Claude has Drive read).
+
+### Gotchas (unchanged)
+- No MCP tool can write cells to the existing sheet, and Claude can't handle the
+  secret key or change Drive sharing — those stay user steps. The populate is a
+  single command/script once the credential exists.
+
+---
+
 <!-- Add new session entries above this line. -->
