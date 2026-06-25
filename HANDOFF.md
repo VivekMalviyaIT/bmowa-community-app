@@ -193,6 +193,16 @@ only on product changes.
 local `main`, then **removed the git worktree and deleted the
 `claude/gallant-ramanujan-b120a2` branch** — locally only `main` remains, no
 worktrees. Nothing pushed (user pushes `main` to GitHub manually → Vercel).
+(Two physical folders under `.claude/worktrees/` were OS-locked and left on disk;
+they're untracked/never pushed — delete after closing the session.)
+
+**Follow-up (same day): mobile/tablet selector placement.** The mobile floating
+instance overlapped the content cards at `left-3 bottom-24`. Moved it to a fixed
+**top-right** corner (`layout.tsx`, `lg:hidden`), and gave `ThemeSelector` a
+`direction` prop (`'up'` = desktop sidebar, opens up/left; `'down'` = mobile,
+opens down/right). Desktop unchanged. Verified at 375/768/1280px. Because the
+worktree's git link was already severed by cleanup, this change was committed
+**directly on `main`** in the parent repo (no new worktree).
 
 ---
 

@@ -39,10 +39,11 @@ export default function RootLayout({
             </div>
           </main>
 
-          {/* Design switcher: docked in the sidebar footer on desktop; a
-              low-profile floating instance on mobile (sidebar is hidden there). */}
-          <div className="lg:hidden fixed left-3 bottom-24 z-[60]">
-            <ThemeSelector />
+          {/* Design switcher: docked in the sidebar footer on desktop; on
+              mobile/tablet (sidebar hidden) it floats in the top-right corner —
+              clear of the content cards and the bottom nav, always reachable. */}
+          <div className="lg:hidden fixed top-4 right-4 z-[60]">
+            <ThemeSelector direction="down" />
           </div>
         </ThemeProvider>
       </body>

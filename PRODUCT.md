@@ -28,7 +28,8 @@ Left sidebar nav (desktop) / bottom tab bar (mobile), 7 sections:
 
 ## 3. The three designs (theme system)
 Switchable via a low-profile selector; on desktop it's docked in the sidebar
-footer (left of "Established 2026"), on mobile it floats bottom-left. Choice
+footer (left of "Established 2026"), on mobile/tablet it floats in the top-right
+corner (clear of the content cards and bottom nav). Choice
 persists in `localStorage` (`bmowa-theme`), applied pre-paint (no flash). All
 three share the same structure (logo + "BlueJay Malgudi" masthead, nav,
 components, typography) — **only colors/atmosphere differ**. Selector order is

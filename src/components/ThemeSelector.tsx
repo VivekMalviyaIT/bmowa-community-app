@@ -17,10 +17,18 @@ const OPTIONS: ThemeOption[] = [
   { id: 'editorial', label: 'Editorial', hint: 'The original', swatch: ['#F7F7F7', '#1A1A1A', '#C4A882'] },
 ];
 
-export default function ThemeSelector() {
+// `direction` controls which way the popover opens:
+//  - 'up'   (default) opens above the trigger, left-aligned — for the desktop
+//           sidebar footer.
+//  - 'down' opens below the trigger, right-aligned — for the mobile/tablet
+//           top-right corner.
+export default function ThemeSelector({ direction = 'up' }: { direction?: 'up' | 'down' }) {
   const { theme, setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
+
+  const popoverPos = direction === 'down' ? 'top-9 right-0' : 'bottom-9 left-0';
+  const yEnter = direction === 'down' ? -8 : 8;
 
   // Close on outside click / Escape
   useEffect(() => {
@@ -47,11 +55,11 @@ export default function ThemeSelector() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: 8, scale: 0.96 }}
+            initial={{ opacity: 0, y: yEnter, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.96 }}
+            exit={{ opacity: 0, y: yEnter, scale: 0.96 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute bottom-9 left-0 w-48 rounded-2xl p-1.5 editorial-card"
+            className={`absolute ${popoverPos} w-48 rounded-2xl p-1.5 editorial-card`}
             role="listbox"
             aria-label="Choose a design"
           >
