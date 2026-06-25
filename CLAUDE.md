@@ -68,5 +68,8 @@ npm run build    # production build (run before merging)
   `GOOGLE_SHEET_ID`. See `docs/google-backend-setup.md`.
 
 ## When you finish a session
-Append a dated entry to [`HANDOFF.md`](HANDOFF.md), and update
-[`PRODUCT.md`](PRODUCT.md) if the product/architecture changed.
+- **Mandatory:** append a dated entry to [`HANDOFF.md`](HANDOFF.md) at the end of
+  **every** session (what changed, why, current state, any open items).
+- **Conditional:** update [`PRODUCT.md`](PRODUCT.md) **only if** the
+  product/architecture changed (new/changed feature, default, data flow, theme).
+- Keep this `CLAUDE.md` in sync if a workflow rule or convention changes.

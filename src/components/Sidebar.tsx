@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
+import ThemeSelector from '@/components/ThemeSelector';
 
 const navItems = [
   { name: 'Spotlight', path: '/', icon: '✦' },
@@ -79,9 +80,10 @@ export default function Sidebar() {
             })}
           </nav>
 
-          {/* Footer */}
-          <div className="pt-6 border-t border-card-border">
-            <p className="text-[10px] text-text-subtle text-center tracking-wide">
+          {/* Footer — design switcher (left) and imprint (right) on one line */}
+          <div className="pt-6 border-t border-card-border flex items-center justify-between gap-2">
+            <ThemeSelector />
+            <p className="text-[10px] text-text-subtle tracking-wide">
               Established 2026
             </p>
           </div>

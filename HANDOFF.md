@@ -167,4 +167,33 @@ After step 4, ask Claude to verify the sheet structure (Claude has Drive read).
 
 ---
 
+## 2026-06-25 (cont.) — Default theme = Cream, selector reorder + footer dock
+
+Three UI tweaks (verified in browser at 1280px and mobile), then full cleanup.
+
+1. **Cream is now the default theme** (was Editorial). Server renders
+   `<html data-theme="cream">` (`layout.tsx`); `ThemeProvider` default + context
+   value are `'cream'`. The no-flash script still applies a returning visitor's
+   saved choice pre-paint. Editorial/Aubergine still selectable; switching +
+   persistence verified.
+2. **Selector order is Cream → Aubergine → Editorial** (`ThemeSelector.tsx`
+   `OPTIONS`).
+3. **Selector docked into the sidebar footer** on the same line as
+   "Established 2026" (switcher left, imprint right). `ThemeSelector` is now a
+   `relative` inline element (was `fixed`); `Sidebar.tsx` renders it in a
+   `flex justify-between` footer; `layout.tsx` keeps a separate `lg:hidden` fixed
+   instance for mobile. Popover width trimmed to `w-48` so it never clips inside
+   the sidebar's `overflow:hidden`.
+
+Docs: `PRODUCT.md` §3 updated (default + order + dock). `CLAUDE.md` "When you
+finish a session" made explicit — HANDOFF mandatory every session, PRODUCT.md
+only on product changes.
+
+**Cleanup done at end of session:** committed to the branch, fast-forwarded into
+local `main`, then **removed the git worktree and deleted the
+`claude/gallant-ramanujan-b120a2` branch** — locally only `main` remains, no
+worktrees. Nothing pushed (user pushes `main` to GitHub manually → Vercel).
+
+---
+
 <!-- Add new session entries above this line. -->

@@ -27,18 +27,22 @@ Left sidebar nav (desktop) / bottom tab bar (mobile), 7 sections:
 | `/feedback` | **Feedback** | Resident form → writes to a private sheet tab |
 
 ## 3. The three designs (theme system)
-Switchable via a low-profile selector pinned bottom-left; choice persists in
-`localStorage` (`bmowa-theme`), applied pre-paint (no flash). All three share the
-same structure (logo + "BlueJay Malgudi" masthead, nav, components, typography) —
-**only colors/atmosphere differ**.
+Switchable via a low-profile selector; on desktop it's docked in the sidebar
+footer (left of "Established 2026"), on mobile it floats bottom-left. Choice
+persists in `localStorage` (`bmowa-theme`), applied pre-paint (no flash). All
+three share the same structure (logo + "BlueJay Malgudi" masthead, nav,
+components, typography) — **only colors/atmosphere differ**. Selector order is
+Cream → Aubergine → Editorial.
 
-- **Editorial** (default) — neutral paper-white, the original look.
-- **Cream** — Claude-cream canvas, Malgudi-maroon brand, garden green/sand; subtle
-  maroon active-nav + warm illumination.
+- **Cream** (default) — Claude-cream canvas, Malgudi-maroon brand, garden
+  green/sand; subtle maroon active-nav + warm illumination.
 - **Aubergine** — dark aubergine/maroon canvas, raised/illuminated sidebar, warm
   sand backlight, rose-maroon accents.
+- **Editorial** — neutral paper-white, the original look.
 
 Mechanism: `data-theme` on `<html>` + CSS variables in `src/app/globals.css`.
+The server renders `data-theme="cream"` so Cream is the default for new visitors;
+the no-flash script applies a returning visitor's saved choice pre-paint.
 Full per-theme reference: `docs/design/{README,editorial,cream,aubergine}.md`.
 
 Typography: **Instrument Serif** (headings/masthead) over **Inter** (UI/body) —

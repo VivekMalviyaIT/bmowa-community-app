@@ -9,8 +9,9 @@ export const metadata: Metadata = {
   description: 'The editorial community hub for BlueJay Malgudi residents',
 };
 
-// Applies the saved design before first paint so returning Cream/Aubergine
-// visitors don't see an Editorial flash.
+// Cream is the default design (set on <html> below). This script applies a
+// returning visitor's saved choice before first paint, so switching to
+// Editorial/Aubergine doesn't flash Cream first.
 const themeInitScript = `(function(){try{var t=localStorage.getItem('bmowa-theme');if(t==='cream'||t==='aubergine'||t==='editorial'){document.documentElement.setAttribute('data-theme',t);}}catch(e){}})();`;
 
 export default function RootLayout({
@@ -19,7 +20,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-theme="cream" suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
@@ -38,8 +39,11 @@ export default function RootLayout({
             </div>
           </main>
 
-          {/* Low-profile design switcher (bottom-left) */}
-          <ThemeSelector />
+          {/* Design switcher: docked in the sidebar footer on desktop; a
+              low-profile floating instance on mobile (sidebar is hidden there). */}
+          <div className="lg:hidden fixed left-3 bottom-24 z-[60]">
+            <ThemeSelector />
+          </div>
         </ThemeProvider>
       </body>
     </html>

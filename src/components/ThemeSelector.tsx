@@ -12,9 +12,9 @@ interface ThemeOption {
 }
 
 const OPTIONS: ThemeOption[] = [
-  { id: 'editorial', label: 'Editorial', hint: 'The original', swatch: ['#F7F7F7', '#1A1A1A', '#C4A882'] },
   { id: 'cream', label: 'Cream', hint: 'Warm & light', swatch: ['#F7F4EC', '#8C2D33', '#3C6B4E'] },
   { id: 'aubergine', label: 'Aubergine', hint: 'Moody & dark', swatch: ['#2A0F13', '#DB908C', '#D8BC8C'] },
+  { id: 'editorial', label: 'Editorial', hint: 'The original', swatch: ['#F7F7F7', '#1A1A1A', '#C4A882'] },
 ];
 
 export default function ThemeSelector() {
@@ -42,7 +42,7 @@ export default function ThemeSelector() {
   return (
     <div
       ref={rootRef}
-      className="fixed left-3 bottom-24 lg:bottom-4 z-[60]"
+      className="relative z-[60]"
     >
       <AnimatePresence>
         {open && (
@@ -51,7 +51,7 @@ export default function ThemeSelector() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.96 }}
             transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="absolute bottom-9 left-0 w-52 rounded-2xl p-1.5 editorial-card"
+            className="absolute bottom-9 left-0 w-48 rounded-2xl p-1.5 editorial-card"
             role="listbox"
             aria-label="Choose a design"
           >

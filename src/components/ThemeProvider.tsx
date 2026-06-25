@@ -13,16 +13,16 @@ interface ThemeContextValue {
 }
 
 const ThemeContext = createContext<ThemeContextValue>({
-  theme: 'editorial',
+  theme: 'cream',
   setTheme: () => {},
 });
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  // Always start as 'editorial' so the server render and first client render
-  // match (no hydration mismatch). The stored choice is applied in the effect
-  // below; an inline script in <head> sets the attribute pre-paint to avoid a
-  // flash for returning Cream/Aubergine visitors.
-  const [theme, setThemeState] = useState<Theme>('editorial');
+  // Cream is the default — it matches `data-theme="cream"` rendered on <html>
+  // by the server, so the first client render agrees (no hydration mismatch).
+  // A returning visitor's stored choice is applied in the effect below; the
+  // inline <head> script also sets the attribute pre-paint to avoid a flash.
+  const [theme, setThemeState] = useState<Theme>('cream');
 
   useEffect(() => {
     try {
